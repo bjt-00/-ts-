@@ -1,0 +1,179 @@
+.Header{
+		width:100%;
+		height:68px;
+		border:0px;	
+ 		background-image: url('images/Header.png');
+		background-repeat: repeat-x;
+		position:fixed;
+		top:0%;
+		text-align:left;
+		z-index:2;
+		/*
+		background-attachment: scroll;
+		  background-attachment: scroll;
+		  background-position: 0% 0%;
+		  background-clip: border-box;
+		  background-origin: padding-box;
+		  background-size: auto auto;
+		  */
+		padding-top:3px;
+		box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+.SearchBar{
+		width:100%;
+		height:40px;
+		border:0px;	
+ 		/*background-image: url('images/Header.png');*/
+		background-repeat: repeat-x;
+		position:fixed;
+		top:30px;
+		text-align:center;
+		z-index:2;
+		background-attachment: scroll;
+		  background-attachment: scroll;
+		  background-position: 0% 0%;
+		  background-clip: border-box;
+		  background-origin: padding-box;
+		  background-size: auto auto;
+		padding-top:3px;
+}
+
+.Footer{
+		text-align:center;
+		font-size:9px;	
+		font-family:verdana;
+		right:0px;
+		color:rgb(215, 215, 215);
+		width:100%;
+		height:20px;
+		vertical-align: top;
+		border-top:1px solid #ffffff;
+		/*
+		border-top-style: dotted;*/
+		background-image: url('images/Footer.png');
+		background-repeat: repeat-x;
+		margin-bottom: 0px;
+}		
+.PageTitle{
+	 padding-top:2px;
+	 color: rgb(33,32,82);
+	 font-size: 20px;
+	 font-weight:bold;
+	 text-shadow: 3px 1px 3px #fff;
+	  background-image: url('images/pageTitle.png');
+	  background-repeat:no-repeat;
+	  padding-bottom: 5px;
+	  padding-right:15px;
+}
+.Heading{
+	 padding-top:5px;
+	 color: #000000;
+	 font-size: 25px;
+	 font-weight:bold;
+	 font-weight:normal;
+	  background-image: url('images/pageTitle.png');
+	  background-repeat: no-repeat;
+	  padding-bottom: 5px;
+	  padding-right:10px;
+	}
+
+.Small{
+	width:50px;
+	}
+.Medium{
+	width:75px;
+	}
+.Large{
+	width:100px;
+	}
+.XLarge{
+	width:150px;
+	}
+.Circle
+{
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size:12px;
+  border:1px solid #000000;
+}
+fieldset{
+	border:1px solid #d4d4d4;
+	padding:5px;
+	background-color: #e1e1e1;
+	background: linear-gradient(to top,  #e1e1e1 0%,#F2F2F2 100%);
+}
+legend{
+	width:45%;
+	font-size:15px;
+	border-right:1px solid #d4d4d4;
+	border-left:1px solid #d4d4d4;
+	border-top:1px solid #d4d4d4;
+	border-bottom:0px solid #e1e1e1;
+	text-decoration:none;
+	padding-left:5px;
+	border-radius: 5px 5px 0px 0px;
+	background-color: #e1e1e1;
+	background: linear-gradient(to bottom,  #FFFFFF 0%,#F2F2F2 100%);
+	
+}
+.ToolTip{}
+.ToolTip .ToolTipText {
+    visibility: hidden;
+	background: linear-gradient(to bottom,  #FFFFFF 0%,#F2F2F2 100%);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position:absolute;
+    z-index: 1;
+    bottom: 80%;
+    border:1px solid orange;
+}
+.ToolTip:hover .ToolTipText {
+    visibility: visible;
+}
+.ToolTip .ToolTipText::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: orange transparent transparent transparent;
+}
+.SampleTextBox{
+	height:150px;
+	width:100%;
+	border:1px dashed #d4d4d4;
+	vertical-align:middle;
+	
+	text-align: center;
+	overflow :scroll y;
+	background-color: #fff;
+}
+.MinMax{
+	margin:0 auto;
+	text-align: center;
+	bottom: 0px;
+}
+.ActiveVerse{
+	background: linear-gradient(to right, #bf8c3d,#fbf4a1,#bf8c3d,#fbf4a1,#bf8c3d,#fbf4a1,#bf8c3d);
+	/*to right #bf8c3d ,#fbf4a1,#bf8c3d);*/
+	/*background-image: url('images/verse_selected.png');*/
+	display:none;
+	text-align: center;
+	font-weight: bold;
+	color:#795826;
+	text-shadow: 3px 1px 3px #fff;
+	bottom:0px;
+	padding:5px;
+	font-size:50px;
+}
+ul{
+	list-style-type: none;
+	color:#696969;
+	font-size:12px;
+}

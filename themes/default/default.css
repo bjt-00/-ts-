@@ -1,0 +1,464 @@
+/*
+Basic Structure
+Author: Abdul Kareem
+Email: bitguiders@yahoo.com
+*/
+
+
+/*
+BASIC APPLICATION STRUCTURE
+*/
+/*
+
+@font-face {
+
+    font-family: 'BlairMdITCTTMedium';
+
+    src: url('fonts/343-webfont.eot');
+
+    src: url('fonts/343-webfont.eot?#iefix') format('embedded-opentype'),
+
+         url('fonts/343-webfont.woff') format('woff'),
+
+         url('fonts/343-webfont.ttf') format('truetype'),
+         url('fonts/343-webfont.svg#BlairMdITCTTMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}*/
+
+
+.MainTable{
+		width:100%;
+		height:100%;
+		border-right:0px solid #eeeeee;
+		border-left:0px solid #eeeeee;
+
+}
+.Contents{
+		width:100%;
+		border:0px;	
+		padding-left:0px;
+		padding-top:0px;
+		padding-bottom:0px;
+		padding-right:0px;
+		vertical-align:top;
+		background-image: url('images/contents.png'); 
+		background-repeat: repeat-y;
+		background-color: #ffffff;
+}
+.Body{
+		font-size:20px;
+		vertical-align: top;
+		text-wrap:break-word;
+		border:0px solid red;
+		width:99%;
+		background-color: #fff;
+}	
+/*TOP MENU*/
+.Menu{
+		width:100%;
+		border:0px solid #cccdce;	
+		background-image: url('images/menu.png'); 
+		background-repeat: no-repeat;
+		font-family:verdana;
+		font-size: 11px;
+		font-weight:bold;
+		padding-top:0px;
+	}	
+.Menu td {
+	height:30px;
+    width:170px;
+	vertical-align: middle;
+	padding-left:10px;
+}
+.Menu td:hover {
+border-left:0px solid #000000;
+ border-bottom:0px solid #ffffff;
+ background-image: url('images/tabHover.png');
+		background-repeat: no-repeat;
+}
+
+.active{
+ border-left:0px solid #cccdce;
+ border-right:0px solid #cccdce;
+ border-bottom:0px solid #ffffff;
+ background:#ffffff;
+ background-image: url('images/tab.png');
+		background-repeat: no-repeat;
+}
+.active td a {
+ color:#ffffff;
+}
+
+
+.Menu td a:hover{
+	color:#ffffff;
+	text-shadow: #eeeeee;
+}
+.Menu .active a{
+	color:#ffffff;
+	text-shadow: #eeeeee;
+}
+.Menu td a{
+	color:green;
+}
+
+.Menu td:hover a{
+	color:#ffffff;
+}
+
+/* SUB MENU*/
+.SubMenu{
+		width:100%;
+		border:0px solid #cccdce;	
+		background-image: url('images/subMenu.png'); 
+		background-repeat: repeat-x;
+		font-family:verdana;
+		font-size: 11px;
+		font-weight:bold;
+		padding-top:0px;
+		border-top: 0px solid orange;
+	}	
+.SubMenu td {
+	height:33px;
+        width:135px;
+	vertical-align: middle;
+	text-align: center;
+	background-image: url('images/subMenu.png'); 
+}
+.SubMenu td:hover {
+	
+border-left:0px solid #000000;
+ border-right:0px solid #000000;
+ background-image: url('images/subMenuHover.png');
+ background-repeat: repeat-x;
+		
+}
+.SubMenu td a {
+	margin-left: 10px;
+	text-decoration: none;
+	text-shadow: #ffffff;
+}
+.SubMenu td:hover a {
+	color: green;
+}
+
+
+.SubMenu a {
+ color: green;
+}
+
+.subActive a {
+ color:green;
+}
+
+.SubMenu td a:hover{
+	color:ffffff;
+	text-shadow: #eeeeee;
+}
+.SubMenu td a:active{
+	color:orange;
+}
+.SubMenu .subActive{
+ border-left:0px solid #cccdce;
+ border-right:0px solid #cccdce;
+ border-bottom:0px solid #ffffff;
+ background-image: url('images/subActive.png');
+}
+
+.Loading{
+	width:80PX;
+	border:2px;
+	top:40%;
+	right:50%;
+	z-index:3;
+	display:none;
+	position:absolute;
+}
+
+.LeftPanel{
+	width:18px;
+	background-image: url('images/left_panel.png');
+	vertical-align: top;
+	position:fixed;
+	left:0%;
+	top:45%;
+}
+.RightPanel{
+	width:18px;
+	background-image: url('images/right_panel.png');
+	vertical-align: top;
+	position:fixed;
+	right:0%;
+	top:45%;
+}
+.EvenRow{
+	background-image: url('images/evenRow.png');
+}
+.OddRow{
+	background-color: #ffffff;
+}
+.SuraTitle{
+	vertical-align:middle;
+	color:#000000;
+	height:42px;
+	border-top:1px solid  rgb(33,32,82);
+	border-bottom:1px solid  rgb(33,32,82);
+	background: linear-gradient(to bottom,  #ffffff 25%,#f2f2f2 100%);
+	background-image: url('images/suraTitle.png'); 
+	text-align:center;
+}
+.TopInfoBar{
+		padding-top:5px;
+		padding-left:15px;
+		height:27px;
+		font-size:20px;
+		text-align:center;
+		background-image: url('images/TopInfoBar.png'); 
+		border-bottom: 1px solid #ffffff;
+}
+.InfoBar{
+		padding-top:1px;
+		padding-left:15px;
+		height:27px;
+		font-size:13px;
+		text-align:center;
+		background: #f1f1f1;
+		background-image: url('images/InfoBar.png'); 
+}
+
+.ToolBaarItem{
+	float:inherit;
+	font-size: 15px;
+}
+.QuranTopPanel{
+	text-align:center;
+	z-index:2;
+	position:fixed;
+	width:100%;
+	top:0%;
+  background-attachment: scroll;
+  background-position: 0% 0%;
+  background-clip: border-box;
+  background-origin: padding-box;
+  background-size: auto auto;
+	
+}
+.QuranBottomPanel{
+	text-align:center;
+	z-index:2;
+	position:fixed;
+	width:100%;
+	bottom:0%;
+}
+.SearchButton{
+	height:22px;
+	width:20px;
+	font-size:30px;
+}
+.SearchBox{
+	padding-right:5px;
+}
+.SearchText{
+	background:#FFB647;
+	color:#ffffff;
+}
+
+/* fonts */
+@font-face {
+    font-family: "WebFonts";
+    src: url("../fonts/fontawesome-webfont.eot");
+    src: url("../fonts/fontawesome-webfont.eot?#iefix") format("eot"), 
+    	 url("../fonts/fontawesome-webfont.woff") format("woff"), 
+    	 url("../fonts/fontawesome-webfont.ttf") format("truetype"), 
+    	 url("../fonts/fontawesome-webfont.svg#FontAwesome") format("svg");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face
+{
+font-family: AlviNastaleeq;
+src: url(../fonts/Urdu_Alvi_Nastaleeq_Font.ttf);
+}
+
+@font-face
+{
+font-family: JameelNooriNastaleeq;
+src: url(../fonts/Urdu_Jameel_Noori_Nastaleeq_Font.ttf);
+}
+
+@font-face
+{
+font-family: Usmani;
+src: url(../fonts/Arabic_PDMS_Islamic_Font.TTF);
+}
+
+@font-face
+{
+src: url(../fonts/Arabic_PDMS_Saleem_Quran_Font.TTF);
+
+font-family: IndoPak;/*'_PDMS_Saleem_QuranFont8.eot';*/
+font-style: normal;
+font-weight: normal;
+src: url('../fonts/Arabic_PDMS_Saleem_QuranFont8.eot');
+src: url('../fonts/Arabic_PDMS_Saleem_QuranFontQeship_0.ttf') format('truetype');
+}
+.Default{
+	font-family:IndoPak;
+}
+
+.IndoPak{
+    font-family: IndoPak;/*"_PDMS_Saleem_QuranFont","_PDMS_Saleem_QuranFont8.eot",Tahoma,Arial;*/
+    Direction:RTL; 
+    margin: 0px 0px 0px 0px; 
+    padding: 0cm 0cm; 
+    font-weight: normal; 
+    font-style: normal; 
+}
+.Usmani{
+		font-family: Usmani;
+}
+.JameelNooriNastaleeq{
+		font-family: JameelNooriNastaleeq;
+}
+.AlviNastaleeq{
+		font-family: AlviNastaleeq;
+}
+.WebFont{
+	font-family:WebFonts;
+}
+
+
+.Verse{
+	font-weight:normal;
+}
+.Translation{
+	font-family:JameelNooriNastaleeq;
+	color:rgb(33,32,82);
+}
+.TabRight{
+	background-image: url('images/tabRight.png');
+	height:24px;
+	width:40px;
+	background-repeat: no-repeat;
+}
+.TabMiddleRight{
+	background-image: url('images/tabMiddleRight.png');
+	height:24px;
+	width:40px;
+	background-repeat: no-repeat;
+}
+.TabMiddle{
+	background-image: url('images/tabMiddle.png');
+	height:24px;
+	background-repeat: repeat-x;
+	width:140px;
+	padding-top:4px;
+}
+.Label{
+		color:#565347;
+		font-size:12px;
+		font-weight: bold;
+		font-family: sans-serif;
+}
+.Link{
+		color:#5f6e75;
+		font-size:11px;
+		font-family: verdana;
+}
+.TitleBar{
+		color:rgb(33,32,82);
+		font-size:12px;
+		font-family: sans-serif;
+		height:55px;
+		text-align:right;
+		font-size:16px;
+		padding-right:10px;
+		padding-top:15px;
+		background: linear-gradient(to bottom,  #FFFFFF 0%,#F2F2F2 100%);
+		background-image: url('images/titleBar.png'); 	
+}
+.ButtonsBar{
+		padding:0px;
+		text-align:right;
+		height:50px;
+		
+		border-top:3px solid rgb(33,32,82);
+		border-bottom: 1px solid #ffffff;
+		
+		background-image: url('images/buttonsBar.png'); 
+}
+.RightButtonsBar{
+		background-image: url('images/logoBar.png') ;
+		background-repeat: no-repeat; 
+}
+/*
+FORM ELEMENTS
+*/
+input[type="button"],input[type="submit"]{
+		color:#ffffff;
+		background-image: url('images/button.png'); 	
+		font-size: 10px;
+		border:1px solid #eeeeee;
+		background: linear-gradient(to bottom,  rgb(33,32,82) 0%,rgb(72,69,175) 100%);
+}
+input[type="button"]:hover,input[type="submit"]:hover{
+		color:#ffffff;
+		background-image: url('images/buttonHover.png'); 	
+		font-size: 10px;
+		border:1px solid #eeeeee;
+		cursor:hand;
+		background: linear-gradient(to bottom,  rgb(72,69,175) 0%,rgb(33,32,82) 100%);
+}
+.SimpleButtonsBar{
+		padding-left:5px;
+		text-align:right;
+}
+
+.PopupButtonsBar{
+		padding:5px;
+		text-align:right;
+		height:45px;
+		background: linear-gradient(to bottom,  #ffffff 25%,#f2f2f2 100%);
+		background-image: url('images/popupButtonsBar.png'); 
+}
+.minimize{
+		border:0px;
+		width:50px;
+		height:18px;
+		background-image: url('images/icons/minimize_selected.png'); 
+}
+.minimize:hover{
+		width:50px;
+		height:18px;
+		background-image: url('images/icons/minimize_rollover.png'); 
+}
+.maximize{
+		border:0px;
+		width:50px;
+		height:18px;
+		background-image: url('images/icons/maximize_selected.png'); 
+}
+.maximize:hover{
+		width:50px;
+		height:18px;
+		background-image: url('images/icons/maximize_rollover.png'); 
+}
+.NormalWord{
+	
+}
+
+.NormalWord:hover{
+	border-bottom:2px dotted;
+	cursor: pointer;
+	color:orange;
+}
+.ErrorWord{
+	color:red;
+	border-bottom:2px solid;
+}
+.ErrorWord:hover{
+	border-bottom:2px dotted;
+	cursor: pointer;
+	color:orange;
+}
