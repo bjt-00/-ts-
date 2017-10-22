@@ -1,4 +1,4 @@
-<div  class="row Translation <?php echo((($verseNo%2)==0?'OddRow':'EvenRow'));?>" id="<?php print('translationRowNo'.$verse->AYAAT_ID); ?>"  style='color:<?php echo ($isError?'red':($isBookmark?'green':$userSetting->getTranslationColor()))?>;font-size:<?php echo $userSetting->getTranslationFontSize()?>px;'>
+<div  class="row Translation <?php echo((($verseNo%2)==0?'OddRow':'EvenRow'));?>" id="<?php print('translationRowNo'.$verse->AYAAT_ID); ?>"  style='color:<?php echo ($isError?'red':($isBookmark?'green':$userSetting->getTranslationColor()))?>;font-size:<?php echo $userSetting->getTranslationFontSize()?>px;padding-right:15px;padding-left:15px'>
     <div class="col-lg-12 <?php echo $userSetting->getTranslationFont(); ?>" style="text-align: right">
     
 		    

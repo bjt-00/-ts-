@@ -1,5 +1,5 @@
 <div  class="row <?php echo((($verseNo%2)==0?'OddRow':'EvenRow'));?>"   >
-    <div class="col-lg-12 Verse <?php echo $userSetting->getArabicFont(); ?>" id="<?php print('verseRowNo'.$verse->AYAAT_ID); ?>" style='color:<?php echo ($isBookmark?'green':$userSetting->getVerseColor())?>;font-size:<?php echo $userSetting->getArabicFontSize()?>px;'>
+    <div class="col-lg-12 Verse <?php echo $userSetting->getArabicFont(); ?>" id="<?php print('verseRowNo'.$verse->AYAAT_ID); ?>" style='color:<?php echo ($isBookmark?'green':$userSetting->getVerseColor())?>;font-size:<?php echo $userSetting->getArabicFontSize()?>px;padding-right:15px;padding-left:15px'>
     
     
 	    <!-- Verse Arabic Text -->

@@ -35,10 +35,12 @@
    	} else
    	*/
    	
-   	 if((isset($_GET['searchText'])&& $_GET['searchText']!='' && strlen($_GET['searchText'])>2)&&(isset($_GET['searchFrom'])&& $_GET['searchFrom']!='')){
-   		$searchQuery = "SELECT DISTINCT ID from ".$_GET['searchFrom']." where TEXT like '%".$_GET['searchText']."%'";
-   	   	$searchText = $_GET['searchText'];
-   	   	$shareURL .="&searchFrom=".$_GET['searchFrom']."&searchText=".$_GET['searchText'];
+   	 if(isset($_GET['searchText'])&& $_GET['searchText']!='' && strlen($_GET['searchText'])>2) /*&&(isset($_GET['searchFrom'])&& $_GET['searchFrom']!='')*/{
+   		//$searchQuery = "SELECT DISTINCT ID from ".$_GET['searchFrom']." where TEXT like '%".$_GET['searchText']."%'";
+   		$searchQuery = "SELECT DISTINCT ID from quran_view where TEXT like '%".$_GET['searchText']."%'";
+   		 $searchText = $_GET['searchText'];
+   	   	//$shareURL .="&searchFrom=".$_GET['searchFrom']."&searchText=".$_GET['searchText'];
+   	   	$shareURL .="&searchText=".$_GET['searchText'];
    }else if((isset($_GET['fromVerse'])&& $_GET['fromVerse']!='')&&(isset($_GET['toVerse'])&& $_GET['toVerse']!='')){
    	    $shareURL .="&fromVerse=".$_GET['fromVerse']."&toVerse=".$_GET['toVerse'];
    }
