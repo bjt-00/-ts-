@@ -34,10 +34,11 @@
 	   	 header($shareURL);
    	} else
    	*/
-   	
-   	 if(isset($_GET['searchText'])&& $_GET['searchText']!='' && strlen($_GET['searchText'])>2) /*&&(isset($_GET['searchFrom'])&& $_GET['searchFrom']!='')*/{
+   	if(isset($_GET['searchText'])){$_GET['searchText']=trim($_GET['searchText']);}
+   
+   	 if(isset($_GET['searchText'])&& $_GET['searchText']!='' && strlen($_GET['searchText'])>=1) /*&&(isset($_GET['searchFrom'])&& $_GET['searchFrom']!='')*/{
    		//$searchQuery = "SELECT DISTINCT ID from ".$_GET['searchFrom']." where TEXT like '%".$_GET['searchText']."%'";
-   		$searchQuery = "SELECT DISTINCT ID from quran_view where TEXT like '%".$_GET['searchText']."%'";
+   		$searchQuery = "SELECT DISTINCT ID from quran_view where TEXT like '%".$_GET['searchText']."%' or ID ='".$_GET['searchText']."'";
    		 $searchText = $_GET['searchText'];
    	   	//$shareURL .="&searchFrom=".$_GET['searchFrom']."&searchText=".$_GET['searchText'];
    	   	$shareURL .="&searchText=".$_GET['searchText'];
@@ -45,21 +46,31 @@
    	    $shareURL .="&fromVerse=".$_GET['fromVerse']."&toVerse=".$_GET['toVerse'];
    }
    $_SESSION["shareURL"] = $shareURL;
+   
+   $isPart1=false;
+   $isPart2=false;
+   $isPart3=false;
+   
+   //audio props
+   $audioPath ='http://thesuffah.org/audio/quran/';
+   $versePath = $audioPath.$userSetting->getReciter();
+   $transaltionPath = $audioPath.$userSetting->getTranslation();
  ?>
 
  <!-- Quran Header -->
-<?php include('structure/quranHeader2.php'); ?>
-
- <!-- Previous Button -->
-<?php include('structure/previous.php'); ?>
+<?php 
+$quran->setSummary($paraNo,$suraNo,$userSetting->getQuranScript());
+include('structure/quranHeader2.php'); 
+?>
 
 <input type='hidden' name='paraNo' value='<?php echo $paraNo;?>'>
 <input type='hidden' name='suranNo' value='<?php echo $suraNo;?>'>
-
 				
 <?php 
-				$query = "SELECT AT.ID AS 'AYAAT_ID',AT.TEXT AS 'AYAAT',RAQU_NO,PART_NO,MANZAL_NO,SURA_NO,T.TEXT AS 'TRANSLATION',IS_SAJDA FROM ".$userSetting->getQuranScript()." AT  JOIN ".$translation." T ON AT.ID = T.ID".
-								" WHERE ".($searchQuery!=''?' AT.ID IN('.$searchQuery.') ':($paraNo>0?' PARA_NO ='.$paraNo:'').($suraNo>0?' SURA_NO ='.$suraNo:'')).$limit."  ORDER BY AYAAT_ID";
+				$query = "SELECT AT.ID AS 'AYAAT_ID',AT.TEXT AS 'AYAAT',v.RAQU_NO,v.RAQU,v.PART_NO,v.PART,AT.MANZAL_NO,AT.SURA_NO,T.TEXT AS 'TRANSLATION',AT.IS_SAJDA,v.SAJDA,v.VERSE_NO,AUDIO FROM ".$userSetting->getQuranScript()." AT " 
+   		                        ." JOIN ".$translation." T ON AT.ID = T.ID "
+   								." JOIN quran_details v ON AT.ID= v.ID "
+								." WHERE ".($searchQuery!=''?' AT.ID IN('.$searchQuery.') ':($paraNo>0?' AT.PARA_NO ='.$paraNo:'').($suraNo>0?' AT.SURA_NO ='.$suraNo:'')).$limit."  ORDER BY AYAAT_ID";
 				//echo $query;
 								$resultset = $dataAccess->getResult($query);
 								
@@ -83,7 +94,7 @@
 								$raquNo =0;
 								$currentSuraNo=0;
 								$ayaatNo=1;
-								$playIndex=($userSetting->isArabic()&&$userSetting->isTranslation()?3:2);
+								$playIndex=($userSetting->isArabic()&&$userSetting->isTranslation()?4:2);
 								
 								
 								$playIndex=(strpos($userSetting->getTranslation(),'jalandhry')!==false?$playIndex:2);
@@ -126,32 +137,22 @@
 									}
 									
 									//part verification
-									$isPart = '';
-									if($verse->PART_NO!=0){
-										$isPart = ($partNo==1? ' أربع ':($partNo==2?' النصف ':' الثلاثة '));
-										$partNo++;
-										if($partNo==4){
-											$partNo=1;
-										}
-									}
-									//raqu verification
-									$isRaqu = '';
-									if($verse->RAQU_NO!=0){
-										//$raquNo = $verse->RAQU_NO;
-										$raquNo++;
-										$isRaqu = 'ع';
+									$isPart = $verse->PART;
+									if($isPart=='أربع'){
+										$isPart1=true;
+									}else if($isPart=='النصف'){
+										$isPart2=true;
+									}else if($isPart=='الثلاثة'){
+										$isPart3=true;
 									}
 									
-									if($quran->getTotalAyaats()==$ayaatNo){
-										//$raquNo =($raquNo>1?$raquNo-1:$raquNo);
-										$isRaqu = 'ع';
-									}
+									//raqu verification
+									$isRaqu = $verse->RAQU;
+									$raquNo = ($verse->RAQU_NO>0?$verse->RAQU_NO:'');
 									
 									//sajda verification
-									$isSajda = '';
-									if($verse->IS_SAJDA==1){
-										$isSajda = 'السجدة';
-									}
+									$isSajda = $verse->SAJDA;
+									
 									?>
 									
 <!-- Show Bismillah -->
@@ -161,7 +162,7 @@
 <?php if($userSetting->isArabic()){	include('structure/verse.php'); }?>
  
 <!-- Show Translation -->
-<?php if($userSetting->isTranslation()){	include('structure/translation.php'); }?>
+<?php if($userSetting->isTranslation()){include('structure/translation.php');}?>
 
 <?php }//while end?>
 				   

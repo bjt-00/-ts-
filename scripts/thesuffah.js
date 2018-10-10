@@ -35,6 +35,25 @@ $(document).ready(function(){
 	$("#pageLoading").hide();
 });
 
+var audioFiles = [];
+
+function addAudio(titl,audioFile,objId,repeat){
+	
+	//audioFile = audioFile.replace("translation_in_roman_english","reciter_nasser_alqatami");
+	var ogg = audioFile.replace("mp3","ogg");
+	ogg = ogg.replace("mp3","ogg");
+	//infoAlert(ogg);
+	if(!audioFile.includes("translation_in_roman_english")){
+		
+		var audio = {title:titl,mp3:audioFile,oga:ogg,id:objId};
+		
+		//repeation of audio based on user settings
+		for(var i=0;i<repeat;i++){
+			audioFiles.push(audio);
+		}
+	}
+}
+
 function showPopUp(popupHeading,url){
 	showLoading();
 	
@@ -149,31 +168,29 @@ function updateVerse(currentRowIndex,verseId){
 	*/
 }
 
-function markForFutureReading(currentRowIndex,verseId,verseColor){
-	$('#successAlert').show();
+function markForFutureReading(verseRowNo,verseId,verseColor){
 	
-	$('#successMessage').text('bookmark request received');
 	var targetUrl='index.php?action=quran&bookmark=0&verseId='+verseId;
-	var currentColor = document.getElementById('verseRowNo'+verseId).style.color;
+	var currentColor = document.getElementById(verseRowNo).style.color;
 
 	if(currentColor=='green'){
-		$('#successMessage').text('removing error');
 		document.getElementById('verseNo'+verseId).style.color='#e1e1e1';
-		document.getElementById('verseRowNo'+verseId).style.color=verseColor;
+		document.getElementById(verseRowNo).style.color=verseColor;
 	}else{
-		$('#successMessage').text('setting error');
 		targetUrl='index.php?action=quran&bookmark=1&verseId='+verseId;
-		document.getElementById('verseRowNo'+verseId).style.color='green';
+		document.getElementById(verseRowNo).style.color='green';
 		document.getElementById('verseNo'+verseId).style.color='green';
 	}
 	$.ajax({
 	    url : targetUrl,
 	    success : function(responseText) {  //$('#etlLog').text(responseText);
-	    	$('#successMessage').text(targetUrl+' '+currentColor);
-	    	$('#successMessage').text('done');
+	    	if(currentColor=='green'){
+	    	infoAlert("Bookmark Removed Successfully");
+	    	}else{
+	    		successAlert("Bookmark Saved Successfully");
+	    	}
 	    }
 	});//ajax end
-	setTimeout(function(){$('#successAlert').hide();},3000);
 }
 function showActiveVerse(text){
 	showVerse('#verseAlert',text)
@@ -225,7 +242,6 @@ function errorMark(isError,errorWordId,verseId,errorWordIndex,verseColor){
 		$("#errorWord-"+verseId+"-"+errorWordIndex).attr("title","Add Errormark");
 		$("#errorWord-"+verseId+"-"+errorWordIndex).css("color","#e1e1e1");
 	}else{
-		//successAlert('Setting Error');
 		$(errorWordId).removeClass("NormalWord");
 		$(errorWordId).addClass("ErrorWord");
 		$("#errorWord-"+verseId+"-"+errorWordIndex).attr("href","javascript:errorMark(0,'"+errorWordId+"',"+verseId+","+errorWordIndex+",'"+verseColor+"')");
@@ -233,11 +249,14 @@ function errorMark(isError,errorWordId,verseId,errorWordIndex,verseColor){
 		$("#errorWord-"+verseId+"-"+errorWordIndex).css("color","red");
 
 	}
-	successAlert("Error "+(isError=='0'?'Removed':'Marked')+' Successfully');
 	$.ajax({
 	    url : targetUrl,
 	    success : function(responseText) {  //$('#etlLog').text(responseText);
-	    	//successAlert("Error "+(isError=='0'?'Removed':'Marked')+' Successfully');
+	    	if(isError=='0'){
+		    	infoAlert("Error Removed Successfully");
+		    	}else{
+		    		successAlert("Error Marked Successfully");
+		    	}
 	    }
 	});//ajax end
 	

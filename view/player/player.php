@@ -3,7 +3,10 @@
 	<title>Web Audio Player Demo</title>
   <!-- link rel="stylesheet" href="view/player/css/normalize.css" -->
 	<link type="text/css" href="view/player/css/style.css" rel="stylesheet" />
-	<?php $audioPath ='audio/quran/';?>
+	<?php 
+	$audioPath ='http://thesuffah.org/audio/quran/';
+	//$audioPath ='audio/quran/';
+	?>
 	<script type="text/javascript" src="view/player/js/jquery.min.js"></script>
 	<script type="text/javascript" src="view/player/js/jquery.js"></script>
 	<script type="text/javascript" src="view/player/js/jquery.jplayer.min.js"></script>
@@ -23,8 +26,8 @@
       			<?php if($userSetting->isArabic()){?>
     			{
     				title:"Taawuz",
-    				oga:"<?php echo $audioPath.$userSetting->getReciter();?>/ogg/taawuz.ogg",
     				mp3:"<?php echo $audioPath.$userSetting->getReciter();?>/mp3/taawuz.mp3",
+    				oga:"<?php echo $audioPath.$userSetting->getReciter();?>/ogg/taawuz.ogg",
     				id:"verseRowNo00"
     			}
     			<?php } ?>
@@ -32,8 +35,9 @@
       			<?php if($userSetting->isTranslation()&& strpos($userSetting->getTranslation(),'jalandhry')!==false){?>
     			{
     				title:"Taawuz Translation",
+    				mp3:"<?php echo $audioPath.$userSetting->getTranslation(); ?>/mp3/taawuz.mp3",
     				oga:"<?php echo $audioPath.$userSetting->getTranslation(); ?>/ogg/taawuz.ogg",
-    				id:"verseRowNo00.1"
+    				id:"verseRowNo00_1"
     			}
     			<?php } ?>
 
@@ -42,15 +46,15 @@
 		    $(this).bind($.jPlayer.event.play, function() {
 			      var obj = myPlaylist.playlist[myPlaylist.current];
 			      setCurrentSelection(obj.id);
-			      //alert($(window).scrollTop()+" <> "+$(window).height()+"<>"+$(document).height());
-			      scrollPosition=scrollPosition+4;
-			      if(scrollPosition>=8){
-			    	  //$(window).scrollTop() + $(window).height() == $(document).height()) {
-			          window.scrollBy(0,(scrollPosition));
-			          // getData();
+
+			      //set scrollbar position
+			      var index = myPlaylist.current;
+			      if(index>1){
+				      var obj2 = myPlaylist.playlist[(index>3?index-3:index)];
+				      var verseRowNo = obj2.id.replace("verseRowNo","_");
+				      verseRowNo = verseRowNo.replace("translationRowNo","_");
+				      window.location.href="#"+verseRowNo;
 			      }
-			     
-			     // setId(obj.id,obj.title);
 			    });
 
 		    $(this).bind($.jPlayer.event.progress, function(event) {
@@ -67,7 +71,7 @@
 			    
         },
         swfPath: "view/player/js",
-        supplied: "oga,mp3"
+        supplied: "mp3,oga"
       });
       
     });
@@ -88,7 +92,7 @@
 			
 			previousId = verseId;
 			previousColor = document.getElementById(verseId).style.color;
-
+		alert(verseId);
 		$("#"+verseId).css("color","orange");	
 		showActiveVerse($("#"+verseId).text());
 		}catch(err){
@@ -99,7 +103,8 @@
 	}
 	function resetPreviousSelection(){
 		try{
-		document.getElementById(previousId).style.color=previousColor;
+		//document.getElementById(previousId).style.color=previousColor;
+		$("#"+previousId).css("color",previousColor);
 		document.getElementById(previousId).style.fontWeight='normal';
 		}catch(err){
 			//document.getElementById('verseRowNo'+verseId).style.color=document.getElementById('verseRowNo'+(verseId-1)).style.color;
@@ -169,94 +174,69 @@
 	}
 	//<![CDATA[
 	$(document).ready(function(){
+        //var audioFiles = [];
 
+        function addAudio_(titl,audioFile,objId){
+            var audio = {title:titl,mp3:audioFile,id:objId};
+            audioFiles.push(audio);
+        }
+        /*
+        <?php if($userSetting->isArabic()){?>
+           addAudio("Taawuz","<?php echo $audioPath.$userSetting->getReciter();?>/mp3/taawuz.mp3","verseRowNo00",1);
+		<?php } ?>
+		
+		<?php // echo ($userSetting->isTranslation()&& $userSetting->isArabic()&& strpos($userSetting->getTranslation(),'jalandhry')!==false && $quran->getCurrentSuraNo()!=9 ?',':''); ?>
+		<?php if($userSetting->isTranslation()&& strpos($userSetting->getTranslation(),'jalandhry')!==false ){?>
+		addAudio("Taawuz Translation","<?php echo $audioPath.$userSetting->getTranslation(); ?>/mp3/taawuz.mp3","verseRowNo00_1",1);
+		<?php } ?>
+
+		<?php if($userSetting->isArabic() && $quran->getCurrentSuraNo()!=9){?>
+		  addAudio("Bismillah","<?php echo $audioPath.$userSetting->getReciter();?>/mp3/bismillah.mp3","verseRowNo01",1);
+		<?php } ?>
+				
+		<?php if($userSetting->isTranslation()&& strpos($userSetting->getTranslation(),'jalandhry')!==false && $quran->getCurrentSuraNo()!=9 ){?>
+		   addAudio("Bismillah Translation","<?php echo $audioPath.$userSetting->getTranslation(); ?>/mp3/bismillah.mp3","verseRowNo01_1",1);
+		<?php } ?>
+		*/
+	    <?php 
+			$quran->setSummary($paraNo,$suraNo,$userSetting->getQuranScript());
+			$fromVerse = (isset($_GET['fromVerse'])?$_GET['fromVerse']:$quran->getMinAyaatID());
+			$toVerse = (isset($_GET['toVerse'])?$_GET['toVerse']:$quran->getMaxAyaatID());
+			$repeatNoOfTimes = $userSetting->getRepeatAudio();
+			
+			/*
+			$query = " SELECT ID,AUDIO FROM quran_details".//.$userSetting->getQuranScript().
+			" AT WHERE ".($searchQuery!=''?' ID IN('.$searchQuery.') ':($paraNo>0?' PARA_NO ='.$paraNo:'').($suraNo>0?' SURA_NO ='.$suraNo:'')).$limit."  ORDER BY ID";
+			
+			$versePath = $audioPath.$userSetting->getReciter();
+			$transaltionPath = $audioPath.$userSetting->getTranslation();
+			
+			$resultset = $dataAccess->getResult($query);
+			while($verse = mysql_fetch_object($resultset)){
+				$verseNo = $verse->ID;
+				$audioFileName = $verse->AUDIO;//$quran->getAudioFileName($verseNo,$suraNo);
+			
+			?>
+			<?php for($repeat=1;$repeat<=$repeatNoOfTimes;$repeat++){ ?>
+				<?php if($userSetting->isArabic()){?>
+				   //addAudio("<?php echo $audioFileName; ?>","<?php echo $versePath;?>/mp3/<?php echo $audioFileName; ?>.mp3","verseRowNo<?php echo $verseNo; ?>");
+				<?php } ?>
+			
+			<?php if($userSetting->isTranslation() && strpos($userSetting->getTranslation(),'jalandhry')!==false ){?>
+				//addAudio("<?php echo $audioFileName; ?>","<?php echo $transaltionPath;?>/mp3/<?php echo $audioFileName; ?>.mp3","translationRowNo<?php echo $verseNo; ?>");				
+			<?php } ?>
+		 <?php }//for end?>
+		
+		<?php }*/ ?>
+		 
+	
+		
 		myPlaylist= new jPlayerPlaylist({
 			jPlayer: "#jquery_jplayer_1",
 			cssSelectorAncestor: "#jp_container_1"
-		}, [
-		   
-  			<?php if($userSetting->isArabic()){?>
-			{
-				title:"Tawuz",
-				oga:"<?php echo $audioPath.$userSetting->getReciter();?>/ogg/taawuz.ogg",
-				mp3:"<?php echo $audioPath.$userSetting->getReciter();?>/mp3/taawuz.mp3",
-				id:"verseRowNo00"
-			}
-			<?php } ?>
-			/*
-			<?php // echo ($userSetting->isTranslation()&& $userSetting->isArabic()&& strpos($userSetting->getTranslation(),'jalandhry')!==false?',':''); ?>
-  			<?php //if($userSetting->isTranslation()&& strpos($userSetting->getTranslation(),'jalandhry')!==false){?>
-			{
-				title:"Tawuz Translation",
-				oga:"view/player/audio/quran/<?php // echo $userSetting->getTranslation(); ?>/ogg/taawuz.ogg",
-				id:"verseRowNo00.1"
-			}
-			<?php // } ?>
-			*/
-			,
-			<?php if($userSetting->isArabic() && $quran->getCurrentSuraNo()!=9){?>
-			{
-				title:"Bismillah",
-				oga:"<?php echo $audioPath.$userSetting->getReciter();?>/ogg/bismillah.ogg",
-				mp3:"<?php echo $audioPath.$userSetting->getReciter();?>/mp3/bismillah.mp3",
-				id:"verseRowNo01"
-			}
-			<?php } ?>
-			<?php echo ($userSetting->isTranslation()&& $userSetting->isArabic()&& strpos($userSetting->getTranslation(),'jalandhry')!==false && $quran->getCurrentSuraNo()!=9 ?',':''); ?>
-			<?php if($userSetting->isTranslation()&& strpos($userSetting->getTranslation(),'jalandhry')!==false && $quran->getCurrentSuraNo()!=9 ){?>
-			{
-				title:"Bismillah Translation",
-				oga:"<?php echo $audioPath.$userSetting->getTranslation(); ?>/ogg/bismillah.ogg",
-				mp3:"<?php echo $audioPath.$userSetting->getTranslation(); ?>/mp3/bismillah.mp3",
-				id:"verseRowNo01.1"
-			}
-			<?php } ?>
-			,
-		    <?php 
-				$quran->setSummary($paraNo,$suraNo,$userSetting->getQuranScript());
-				$fromVerse = (isset($_GET['fromVerse'])?$_GET['fromVerse']:$quran->getMinAyaatID());
-				$toVerse = (isset($_GET['toVerse'])?$_GET['toVerse']:$quran->getMaxAyaatID());
-				$repeatNoOfTimes = $userSetting->getRepeatAudio();
-				
-				$query = " SELECT * FROM ".$userSetting->getQuranScript().
-				" AT WHERE ".($searchQuery!=''?' ID IN('.$searchQuery.') ':($paraNo>0?' PARA_NO ='.$paraNo:'').($suraNo>0?' SURA_NO ='.$suraNo:'')).$limit."  ORDER BY ID";
-				
-				$resultset = $dataAccess->getResult($query);
-				while($verse = mysql_fetch_object($resultset)){
-					$verseNo = $verse->ID;
-					$suraNo  = $verse->SURA_NO;
-					$audioFileName = $quran->getAudioFileName($verseNo,$suraNo);
-				//for($verseNo=$fromVerse;$verseNo<=$toVerse;$verseNo++){	
-				
-				?>
-				<?php for($repeat=1;$repeat<=$repeatNoOfTimes;$repeat++){ ?>
-					<?php if($userSetting->isArabic()){?>
-					    
-							{
-								title:"<?php echo $audioFileName; ?>",
-								oga:"<?php echo $audioPath.$userSetting->getReciter();?>/ogg/<?php echo $audioFileName; ?>.ogg",
-								mp3:"<?php echo $audioPath.$userSetting->getReciter();?>/mp3/<?php echo $audioFileName; ?>.mp3",
-								id:"verseRowNo<?php echo $verseNo; ?>"
-							}
-					<?php } ?>
-					<?php echo ($userSetting->isTranslation()&& $userSetting->isArabic()&& strpos($userSetting->getTranslation(),'jalandhry')!==false ?',':''); ?>
-				
-				<?php if($userSetting->isTranslation() && strpos($userSetting->getTranslation(),'jalandhry')!==false ){?>
-					{
-						title:"<?php echo $audioFileName; ?>",
-						oga:"<?php echo $audioPath.$userSetting->getTranslation(); ?>/ogg/<?php echo $audioFileName; ?>.ogg",
-						id:"translationRowNo<?php echo $verseNo; ?>"
-					}
-				<?php } ?>
-			   <?php echo ($repeat!=$userSetting->getRepeatAudio()?',':'');  ?>
-			 <?php }//for end?>
-			<?php if($verseNo!=$toVerse){echo ',';	} ?>
-			
-			<?php } ?>
-			 
-		], {
+		}, audioFiles, {
 			swfPath: "view/player/js",
-			supplied: "oga,mp3",
+			supplied: "mp3,oga",
 			solution:"html,flash",
 			wmode: "window",
 			errorAlerts: true,
@@ -264,12 +244,9 @@
 			keyEnabled: true
 		});
 
-		//$ ("#jplayer_inspector_1").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
-		
-		
 		
 	});
-	
+		
 	//]]>
 	</script>
 
