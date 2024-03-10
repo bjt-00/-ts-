@@ -1,3 +1,22 @@
+<!-- data tables -->	
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$('#sajdasTable').DataTable(
+						{
+							"language": {
+					            "lengthMenu": "Show _MENU_",
+					            "zeroRecords": "No Match Found",
+					            "info": "Page _PAGE_ of _PAGES_",
+					            "infoEmpty": "No records available",
+					            "infoFiltered": "(Total of _MAX_ Records)",
+					            "search":"Search"
+							},
+							"lengthMenu": [[5,10,-1], [5,10, "All"]]
+						}
+				 );
+			} );
+		</script>
+
 <?php 
 session_start();
  include '../../src/com/bitguiders/weblayer/model/user/UserSettingsBackingBean.php';
@@ -16,13 +35,33 @@ session_start();
 	$suraNumbers=array(7,13,16,17,19,22,22,25,27,32,38,41,53,84,96);
 	$substrPosition=array(60,63,60,63,64,63,63,60,64,60,60,63,63,60,60);
 
-	for($i=0;$i< sizeof($sajdaTitles);$i++){
 	?>
 
-<div class="row Verse  <?php echo ($i%2==0?'EvenRow':'OddRow');?>">
-<div class="col-lg-12 <?php echo $userSetting->getArabicFont(); ?>">
-<?php print($quran->getNumberInArabic($i+1));?>
-&nbsp;<a href="index.php?suraNo=<?php echo $suraNumbers[$i]?>&fromVerse=<?php echo $verseNumbers[$i]?>" style='color:<?php echo $userSetting->getVerseColor()?>' onclick="hideDiv('suraPopupDiv')"  ><?php echo substr($sajdaTitles[$i],0,$substrPosition[$i]).'..';?> &nbsp;( <?php echo $suraTitles[$i]?>‏ )   </a>
-	</div>
-</div>	
+<table id="sajdasTable" class="display" cellspacing="0" width="100%">
+<thead>
+<tr>
+<th>No</th>
+<th>Sajda</th>
+</tr>
+</thead>
+<tbody>
+<?php 	for($i=0;$i< sizeof($sajdaTitles);$i++){
+    ?>
+<tr>
+	<td><?php echo $i+1?></td>
+	<td class="<?php echo (null!=$userSetting?$userSetting->getArabicFont():''); ?>">
+		<a href="index.php?suraNo=<?php echo $suraNumbers[$i]?>&fromVerse=<?php echo $verseNumbers[$i]?><?php echo (isset($_GET['reciter'])?'&reciter='.$_GET['reciter']:'');?>" style='color:<?php echo (null!=$userSetting?$userSetting->getVerseColor():'orange')?>' onclick="hideDiv('suraPopupDiv')"  ><?php echo substr($sajdaTitles[$i],0,$substrPosition[$i]).'..';?> &nbsp;( <?php echo $suraTitles[$i]?>)   </a>	
+	</td>
+</tr>
 <?php }?>
+
+</tbody>
+</table>
+
+<script type="text/javascript">
+	// For demo to fit into DataTables site builder...
+	$('#sajdasTable')
+		.removeClass( 'display' )
+		.addClass('table table-striped table-bordered');
+</script>
+			

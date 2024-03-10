@@ -1,3 +1,16 @@
+<!-- data tables -->	
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$('#manzilsTable').DataTable(
+						{
+							"info":false,
+							"paging":false,
+							"searching":false
+						}
+				);
+			} );
+		</script>
+
 <?php 
 session_start();
  include '../../src/com/bitguiders/weblayer/model/user/UserSettingsBackingBean.php';
@@ -15,14 +28,32 @@ session_start();
 	$paraTitles=array("سُوۡرَةُ الفَاتِحَة","سُوۡرَةُ المَائدة","سُوۡرَةُ یُونس","سُوۡرَةُ بنیٓ اسرآئیل","سُوۡرَةُ الشُّعَرَاء","سُوۡرَةُ الصَّافات","سُوۡرَةُ الطُّور");
 	$suraNumbers=array(1,5,10,17,26,37,52);
 	$substrPosition=array(65,65,60,65,60,60,60);
-	for($i=0;$i< sizeof($manzilTitles);$i++){
+	
 	?>
 
-<div class="row Verse <?php echo $userSetting->getArabicFont(); ?> <?php echo ($i%2==0?'EvenRow':'OddRow');?>">
-<div class="col-lg-12">
-<?php print($quran->getNumberInArabic($i+1));?>
-&nbsp;<a href="index.php?suraNo=<?php echo $suraNumbers[$i]?>" style='color:<?php echo $userSetting->getVerseColor()?>' onclick="hideDiv('suraPopupDiv')"  ><?php echo substr($paraTitles[$i],0,$substrPosition[$i]).'..'?> &nbsp; ( <?php echo $manzilTitles[$i]?> )   </a>
-</div>
-</div>	
+<table id="manzilsTable" class="display" cellspacing="0" width="100%">
+<thead>
+<tr>
+<th>No</th>
+<th>Manzil</th>
+</tr>
+</thead>
+<tbody>
+<?php for($i=0;$i< sizeof($manzilTitles);$i++){ ?>
+<tr>
+	<td><?php echo $i+1?></td>
+	<td class="<?php echo (null!=$userSetting?$userSetting->getArabicFont():''); ?>">
+	<a href="index.php?suraNo=<?php echo $suraNumbers[$i]?><?php echo (isset($_GET['reciter'])?'&reciter='.$_GET['reciter']:'');?>" style='color:<?php echo (null!=$userSetting?$userSetting->getVerseColor():'orange')?>' onclick="hideDiv('suraPopupDiv')"  ><?php echo substr($paraTitles[$i],0,$substrPosition[$i]).'..'?> &nbsp; ( <?php echo $manzilTitles[$i]?> )   </a>	</td>
+</tr>
 <?php }?>
 
+</tbody>
+</table>
+
+<script type="text/javascript">
+	// For demo to fit into DataTables site builder...
+	$('#manzilsTable')
+		.removeClass( 'display' )
+		.addClass('table table-striped table-bordered');
+</script>
+			
